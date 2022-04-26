@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SimpleTimer : MonoBehaviour
 {
     public float timeLimit = 20;
+    public int adjustedTime = 0;
     private float timeGamePlayingStarted;
     private GameController gameController;
 
@@ -36,6 +37,12 @@ public class SimpleTimer : MonoBehaviour
         //cast time to an int
         int timerCount = (int) timeSinceGamePlayingStarted;
         //Update Timer text on screen
-        gameController.UpdateGameTimer(timerCount);
+        gameController.UpdateGameTimer(timerCount + adjustedTime);
+    }
+
+    public void AddToTimer(int adjustTime)
+    {
+        adjustedTime -= adjustTime;
+        timeLimit += adjustTime;
     }
 }

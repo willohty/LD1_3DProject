@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour {
 	private int count;
 	private GameController gameController;
 
+	public SimpleTimer SimpleTimer;
+
 	// At the start of the game..
 	void Start ()
 	{
@@ -56,6 +58,21 @@ public class PlayerController : MonoBehaviour {
 
 			// Run the GameController function for picking up a collectible
 			gameController.OnPickUpCollectible(count);
+		}
+
+
+		//NEW STUFF
+		//
+		if (other.gameObject.CompareTag("Time Pick Up"))
+		{
+			// Make the other game object (the pick up) inactive, to make it disappear
+			other.gameObject.SetActive(false);
+
+			// Add one to the score variable 'count'
+			//count = count + 1;
+
+			// Run the GameController function for picking up a collectible
+			SimpleTimer.AddToTimer(5);
 		}
 	}
 }
