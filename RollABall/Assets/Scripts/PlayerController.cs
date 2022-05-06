@@ -10,6 +10,12 @@ public class PlayerController : MonoBehaviour {
 	// Create public variables for player speed, and for the Text UI game objects
 	public float speed;
 
+
+	//Values to regulate the amount of time speed is modified
+	public float speedModifier = 1;
+	public bool isBoosting = false;
+	public float boostTimer;
+
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
 	private int count;
@@ -26,6 +32,9 @@ public class PlayerController : MonoBehaviour {
 
 		// Set the count to zero 
 		count = 0;
+
+		//Boost Timer keeps track of the amount of time while boosting
+		boostTimer = 0;
 	}
 
 	// Each physics step..
@@ -40,7 +49,20 @@ public class PlayerController : MonoBehaviour {
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
-		rb.AddForce (movement * speed);
+		rb.AddForce (movement * speed * speedModifier);
+
+		//Boost Timer regulates how long the player is boosted upon picking up object tagged "Speed Boost"
+		if (isBoosting)
+        {
+			print("is boosting");
+			boostTimer += Time.deltaTime;
+			if (boostTimer >= 1.5)
+            {
+				speedModifier = 1;
+				boostTimer = 0;
+				isBoosting = false;
+            }
+        }
 	}
 
 	// When this game object intersects a collider with 'is trigger' checked, 
@@ -73,6 +95,15 @@ public class PlayerController : MonoBehaviour {
 
 			// Run the GameController function for picking up a collectible
 			SimpleTimer.AddToTimer(5);
+		}
+
+		if (other.gameObject.CompareTag("Speed Boost"))
+		{
+			// Make the other game object (the pick up) inactive, to make it disappear
+			other.gameObject.SetActive(false);
+
+			speedModifier = 2;
+			isBoosting = true;
 		}
 	}
 }
