@@ -1,23 +1,27 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+
     public enum GameStates
     {
         GamePlaying,
         GameWon,
         GameLost
     };
+
     private GameView gameView;
     private GameStates gameState;
     private int maxCollectiblesCount;
 
     private void Start()
     {
+
         gameView = GetComponentInChildren<GameView>();
         gameState = GameStates.GamePlaying;
         maxCollectiblesCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
