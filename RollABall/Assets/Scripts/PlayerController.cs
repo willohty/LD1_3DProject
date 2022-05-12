@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
+
+
+	public Indicator indicator;
 	
 	// Create public variables for player speed, and for the Text UI game objects
 	public float speed;
@@ -90,11 +93,10 @@ public class PlayerController : MonoBehaviour {
 			// Make the other game object (the pick up) inactive, to make it disappear
 			other.gameObject.SetActive(false);
 
-			// Add one to the score variable 'count'
-			//count = count + 1;
-
 			// Run the GameController function for picking up a collectible
 			SimpleTimer.AddToTimer(5);
+			indicator.addedToTimer();
+
 		}
 
 		if (other.gameObject.CompareTag("Speed Boost"))
