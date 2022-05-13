@@ -5,11 +5,15 @@ using UnityEngine.UI;
 
 public class Indicator : MonoBehaviour
 {
-    public Text indicator;
-    public bool showIndicator = false;
+    public Text timeChangeIndicator;
+    public bool showTimeChangeIndicator = false;
 
-    private int showForSeconds = 3;
-    
+    public Text boostIndicator;
+    public bool showBoostIndicator = false;
+
+    private int showTimeChangeForSeconds = 3;
+    private float showBoostForSeconds = 1.5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,28 +24,48 @@ public class Indicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (showIndicator)
+        if (showTimeChangeIndicator)
         {
-            indicator.text = "-5 seconds";
+            timeChangeIndicator.text = "-5 seconds";
         }
-        else if (!showIndicator)
+        else if (!showTimeChangeIndicator)
         {
-            indicator.text = "";
+            timeChangeIndicator.text = "";
+        }
+
+        if (showBoostIndicator)
+        {
+            boostIndicator.text = "you're fast!";
+        }
+        else if (!showBoostIndicator)
+        {
+            boostIndicator.text = "";
         }
     }
 
-    public void addedToTimer()
+    public void showTimeChangeToPlayer()
     {
-        showIndicator = true;
-        StartCoroutine(IndicatorShowTimer());
+        showTimeChangeIndicator = true;
+        StartCoroutine(TimeShowingTimeIndicator());
+    }
+
+    public void showBoostingToPlayer()
+    {
+        showBoostIndicator = true;
+        StartCoroutine(TimeShowingBoostIndicator());
     }
 
 
-    IEnumerator IndicatorShowTimer()
+    IEnumerator TimeShowingTimeIndicator()
     {
-        yield return new WaitForSeconds(showForSeconds);
-        showIndicator = false;
-        print("indicator timer is out");
+        yield return new WaitForSeconds(showTimeChangeForSeconds);
+        showTimeChangeIndicator = false;
+    }
+
+    IEnumerator TimeShowingBoostIndicator()
+    {
+        yield return new WaitForSeconds(showBoostForSeconds);
+        showBoostIndicator = false;
     }
 
 }

@@ -8,7 +8,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 
-	public Indicator indicator;
+	public Indicator indicationUI;
 	
 	// Create public variables for player speed, and for the Text UI game objects
 	public float speed;
@@ -41,31 +41,37 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	// Each physics step..
-	void FixedUpdate ()
+	void FixedUpdate()
 	{
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
+		float moveHorizontal = Input.GetAxis("Horizontal");
+		float moveVertical = Input.GetAxis("Vertical");
 
 		// Create a Vector3 variable, and assign X and Z to feature our horizontal and vertical float variables above
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+		Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
-		rb.AddForce (movement * speed * speedModifier);
+		rb.AddForce(movement * speed * speedModifier);
 
 		//Boost Timer regulates how long the player is boosted upon picking up object tagged "Speed Boost"
 		if (isBoosting)
-        {
-			print("is boosting");
+		{
+			
 			boostTimer += Time.deltaTime;
 			if (boostTimer >= 1.5)
-            {
+			{
 				speedModifier = 1;
 				boostTimer = 0;
 				isBoosting = false;
-            }
-        }
+			}
+		}
+
+		//Quit Function
+		if (Input.GetKey("escape"))
+		{
+			Application.Quit();
+		}
 	}
 
 	// When this game object intersects a collider with 'is trigger' checked, 
@@ -95,7 +101,7 @@ public class PlayerController : MonoBehaviour {
 
 			// Run the GameController function for picking up a collectible
 			SimpleTimer.AddToTimer(5);
-			indicator.addedToTimer();
+			indicationUI.showTimeChangeToPlayer();
 
 		}
 
@@ -106,6 +112,7 @@ public class PlayerController : MonoBehaviour {
 
 			speedModifier = 2;
 			isBoosting = true;
+			indicationUI.showBoostingToPlayer();
 		}
 	}
 }
